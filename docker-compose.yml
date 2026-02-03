@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   app:
     build: .
-    container_name: laravel-app
+    container_name: crud-laravel-12-app-1
     volumes:
       - .:/var/www
     networks:
@@ -11,7 +9,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: laravel-nginx
+    container_name: laravelcrud-laravel-12-app-1-nginx
     ports:
       - "8000:80"
     volumes:
@@ -22,5 +20,23 @@ services:
     networks:
       - laravel
 
+  db:
+    image: mysql:8
+    container_name: crud-laravel-12-db-1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: crud_db
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: laravel_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel
+
 networks:
   laravel:
+
+volumes:
+  dbdata:
